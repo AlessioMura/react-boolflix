@@ -1,4 +1,23 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
+
+const calculateStars = (vote) => Math.round((vote / 10) * 5);
+
+const StarRating = ({ stars }) => {
+    const totalStars = 5;
+    return (
+        <div>
+            {Array.from({ length: totalStars }, (_, index) => (
+                <FontAwesomeIcon
+                    key={index}
+                    icon={index < stars ? solidStar : regularStar}
+                />
+            ))}
+        </div>
+    );
+};
 
 const App = () => {
     const [inputValue, setInputValue] = useState('')
@@ -28,6 +47,7 @@ const App = () => {
                 language: movie.original_language,
                 vote: movie.vote_average,
                 type: "Film",
+                posterPath: movie.poster_path
             }))
 
             const tvResponse = await fetch(tvUrl)
@@ -39,6 +59,7 @@ const App = () => {
                 language: tv.original_language,
                 vote: tv.vote_average,
                 type: "TV Series",
+                posterPath: tv.poster_path
             }))
 
             setResult([...movies, ...tvShows])
@@ -70,8 +91,17 @@ const App = () => {
                         <h2>{item.title}</h2>
                         <p>Original Title: {item.originalTitle}</p>
                         <p>Language: {item.language}</p>
-                        <p>Score: {item.vote}</p>
                         <p>Type: {item.type}</p>
+                        {item.posterPath ? (
+                            <img
+                            src={`https://image.tmdb.org/t/p/w200${item.posterPath}`}
+                            alt={item.title}
+                            style={{ width: '200px', height: 'auto', borderRadius: '8px' }}
+                            />
+                        ) : (
+                            <p>No image available</p>
+                        )}
+                        <StarRating stars={calculateStars(item.vote)} />
                     </div>
                 ))}
             </div>

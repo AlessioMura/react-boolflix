@@ -4,12 +4,17 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 
     img {
         width: 150px;
     }
-    input{
+
+    input {
         padding: 5px;
         width: 15rem;
+        border-radius: 10px;
     }
 }

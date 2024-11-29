@@ -10,17 +10,9 @@ function MovieList() {
     return (
         <div className={style.container}>
             {results.map((item) => (
-                <div key={item.id} className={style.card}>
-                    {item.posterPath ? (
-                        <img
-                            src={`https://image.tmdb.org/t/p/w200${item.posterPath}`}
-                            alt={item.title}
-                            style={{ width: '200px', height: 'auto', borderRadius: '8px' }}
-                        />
-                    ) : (
-                        <p>No image available</p>
-                    )}
-                    <div className='description'>
+                <div key={item.id} className={style.card} style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w342${item.posterPath})` }}>
+                    
+                    <div className={style.description}>
                         <h2>{item.title}</h2>
                         <StarRating stars={calculateStars(item.vote)} />
                         <p>Original Title: {item.originalTitle}</p>

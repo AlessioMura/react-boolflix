@@ -4,31 +4,55 @@ const GlobalContext = createContext()
 function GlobalContextProvider({ children }) {
 
     const [search, setSearch] = useState('')
-    const [movies, setMovies] = useState([])
+    const [results, setResults] = useState([])
 
     const api_key = import.meta.env.VITE_MOVIE_DB_API_KEY
-    const base_api_url = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${search}`
+    const movieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${search}`
+    const tvUrl = `https://api.themoviedb.org/3/search/tv?api_key=${api_key}&query=${search}`
 
 
-    function handleSearchSubmit(e) {
+
+    async function handleSearchSubmit(e) {
         e.preventDefault()
-        console.log(base_api_url);
 
 
-        fetch(base_api_url)
-            .then((res) => res.json())
-            .then(({ results }) => {
-                console.log(results);
-                setMovies(results)
-            })
+        try {
+            const movieResponse = await fetch(movieUrl)
+            const movieData = await movieResponse.json()
+            const movies = movieData.results.map((movie) => ({
+                id: movie.id,
+                title: movie.title,
+                originalTitle: movie.original_title,
+                language: movie.original_language,
+                vote: movie.vote_average,
+                type: "Film",
+                posterPath: movie.poster_path
+            }))
+
+            const tvResponse = await fetch(tvUrl)
+            const tvData = await tvResponse.json()
+            const tvShows = tvData.results.map((tv) => ({
+                id: tv.id,
+                title: tv.name,
+                originalTitle: tv.original_name,
+                language: tv.original_language,
+                vote: tv.vote_average,
+                type: "TV Series",
+                posterPath: tv.poster_path
+            }))
+
+            setResults([...movies, ...tvShows])
+        } catch (err) {
+            console.log(err)
+        }
+
     }
 
     const values = {
-        movies,
-        setMovies,
+        results,
+        setResults,
         search,
         setSearch,
-        base_api_url,
         handleSearchSubmit
     }
 

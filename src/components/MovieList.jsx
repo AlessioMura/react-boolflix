@@ -1,22 +1,34 @@
 import { useGlobalContext } from '../context/GlobalContext'
+import { calculateStars, StarRating } from "./Score";
 
 
 function MovieList() {
-    const { movies } = useGlobalContext()
+    const { results } = useGlobalContext()
 
 
     return (
-        <ul>
-            {movies && movies.map((movie, index) => (
-                <li key={index}>
-                    Title: {movie.title} <br />
-                    Original Title: {movie.original_title} <br />
-                    Language: {movie.original_language} <br />
-                    Score: {moveBy.vote_avarage}
-                    <hr />
-                </li>
-            ))}
-        </ul>
+        <div>
+                {results.map((item) => (
+                    <div key={item.id}>
+                        <hr />
+                        <h2>{item.title}</h2>
+                        {item.posterPath ? (
+                            <img
+                                src={`https://image.tmdb.org/t/p/w200${item.posterPath}`}
+                                alt={item.title}
+                                style={{ width: '200px', height: 'auto', borderRadius: '8px' }}
+                            />
+                        ) : (
+                            <p>No image available</p>
+                        )}
+                        <StarRating stars={calculateStars(item.vote)} />
+                        <p>Original Title: {item.originalTitle}</p>
+                        <p>Language: {item.language}</p>
+                        <p>Type: {item.type}</p>
+                        
+                    </div>
+                ))}
+            </div>
     )
 }
 

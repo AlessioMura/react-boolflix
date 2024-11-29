@@ -1,12 +1,27 @@
-import './App.css'
-import Search from './components/Search'
+/* import Search from './components/Search' */
+import { GlobalContextProvider } from './context/GlobalContext'
+import { AppHeader } from './components/AppHeader'
+import { MovieList } from './components/MovieList'
 
 function App() {
 
 
   return (
     <>
-      <Search />
+
+      <GlobalContextProvider>
+
+        <AppHeader />
+
+        <main>
+          <MovieList />
+        </main>
+
+
+
+      </GlobalContextProvider>
+
+
     </>
   )
 }

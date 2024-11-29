@@ -1,0 +1,15 @@
+header {
+    background-color: black;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+        width: 150px;
+    }
+    input{
+        padding: 5px;
+        width: 15rem;
+    }
+}

@@ -1,7 +1,7 @@
 /* import Search from './components/Search' */
 import { GlobalContextProvider } from './context/GlobalContext'
-import { AppHeader } from './components/AppHeader'
-import { MovieList } from './components/MovieList'
+import { AppHeader } from './components/Appheader/AppHeader'
+import { MovieList } from './components/MovieList/MovieList'
 
 function App() {
 
